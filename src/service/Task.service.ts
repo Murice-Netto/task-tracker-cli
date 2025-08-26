@@ -1,8 +1,8 @@
 import { Task } from "../entities/Task.ts";
-import { DatabaseData, JsonDatabase } from "../utils/Database.ts";
+import { Database, DatabaseData } from "../utils/Database.ts";
 
 export class TaskService {
-  constructor(private db: JsonDatabase) {}
+  constructor(private db: Database) {}
 
   public createTask(description: string): void {
     const newData: DatabaseData = this.db.data;

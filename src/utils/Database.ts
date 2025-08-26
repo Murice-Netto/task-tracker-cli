@@ -7,7 +7,7 @@ export type DatabaseData = {
   tasks: Task[];
 };
 
-export class JsonDatabase {
+export class Database {
   private FILE_NAME: string = "db.json";
   private FILE_PATH: string = nodePath.join("./", this.FILE_NAME);
   private FILE_CONTENT: string = `{ "tasks": [] }`;
