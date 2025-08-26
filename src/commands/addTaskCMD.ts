@@ -11,7 +11,7 @@ const handler: CommandHandler = async (
   console.log("Task created!");
 };
 
-export const addTask: Command = {
+export const addTaskCMD: Command = {
   name: "add",
   description: "",
   exec: handler,
