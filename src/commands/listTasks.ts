@@ -1,9 +1,7 @@
-import { Command, CommandHandler } from "../entities/Command.ts";
-
 import { Task } from "../entities/Task.ts";
 import { TaskStatus } from "../entities/TaskStatus.ts";
+import { Command, CommandHandler } from "../entities/Command.ts";
 import { TaskService } from "../service/TaskService.ts";
-
 import { center } from "../utils/center-text.ts";
 import { getColumnWidth } from "../utils/get-table-column-size.ts";
 

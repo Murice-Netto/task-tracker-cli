@@ -1,6 +1,7 @@
-import { Command, CommandHandler } from "../entities/Command.ts";
 import { InvalidDataError } from "../errors/InvalidDataError.ts";
 import { MissingTaskPropertyError } from "../errors/MissingTaskPropertyError.ts";
+
+import { Command, CommandHandler } from "../entities/Command.ts";
 import { TaskService } from "../service/TaskService.ts";
 
 const handler: CommandHandler = async (
