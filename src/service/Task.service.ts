@@ -26,6 +26,14 @@ export class TaskService {
     this.db.update(newData);
   }
 
+  public udpateTaskStatus(id: number, status: string): void {
+    const newData: DatabaseData = this.db.data;
+    const taskFound = this.getTaskById(id);
+    if (!taskFound) throw new Error("Task not found.");
+    taskFound.status = status;
+    this.db.update(newData);
+  }
+
   public getTaskById(id: number): Task | undefined {
     return this.db.data.tasks.find((task) => task.id === id);
   }
