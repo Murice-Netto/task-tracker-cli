@@ -1,4 +1,5 @@
 import { Task } from "../entities/Task.ts";
+import { TaskStatus } from "../entities/TaskStatus.ts";
 import { Database, DatabaseData } from "../utils/Database.ts";
 
 export class TaskService {
@@ -10,7 +11,7 @@ export class TaskService {
       id: this.db.lastInsertedId + 1,
       createdAt: new Date(),
       description,
-      status: "a",
+      status: TaskStatus.TODO,
     };
     task.id = this.db.lastInsertedId + 1;
     newData.tasks.push(task);

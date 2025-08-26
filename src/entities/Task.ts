@@ -1,7 +1,9 @@
+import { TaskStatus } from "./TaskStatus.ts";
+
 export type Task = {
   id: number;
   description: string;
-  status: string;
+  status: TaskStatus;
   createdAt: Date;
   updatedAt?: Date;
 };
