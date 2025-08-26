@@ -34,6 +34,13 @@ export class TaskService {
     this.db.update(newData);
   }
 
+  public getAllTasks(status?: string): Task[] {
+    if (status) {
+      return this.db.data.tasks.filter((task) => task.status === status);
+    }
+    return this.db.data.tasks;
+  }
+
   public getTaskById(id: number): Task | undefined {
     return this.db.data.tasks.find((task) => task.id === id);
   }
