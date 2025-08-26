@@ -1,14 +1,9 @@
-export class Task {
-  public id: number;
-  public description: string;
-  public status: string;
-  public createdAt: Date;
-  public updatedAt?: Date;
+import { TaskStatus } from "./TaskStatus.ts";
 
-  public constructor(description: string) {
-    this.id = 0;
-    this.description = description;
-    this.status = "a";
-    this.createdAt = new Date();
-  }
-}
+export type Task = {
+  id: number;
+  description: string;
+  status: TaskStatus;
+  createdAt: Date;
+  updatedAt?: Date;
+};

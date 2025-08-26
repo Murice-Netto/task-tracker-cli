@@ -1,23 +1,29 @@
-import { addTask } from "./commands/addTask.ts";
-import { deleteTask } from "./commands/deleteTask.ts";
-import { listTasks } from "./commands/listTasks.ts";
-import { markDone } from "./commands/markDone.ts";
-import { markInProgress } from "./commands/markInProgress.ts";
-import { updateTask } from "./commands/updateTask.ts";
-import { TaskService } from "./service/Task.service.ts";
+import { addTaskCMD } from "./commands/addTaskCMD.ts";
+import { deleteTaskCMD } from "./commands/deleteTaskCMD.ts";
+import { listTasksCMD } from "./commands/listTasks.ts";
+import { maskTaskAsDoneCMD } from "./commands/markDone.ts";
+import { markTaskAsInProgressCMD } from "./commands/markInProgress.ts";
+import { updateTaskCMD } from "./commands/updateTask.ts";
+import { TaskService } from "./service/TaskService.ts";
 
-import { Cli } from "./utils/Cli.ts";
-import { JsonDatabase } from "./utils/Database.ts";
+import { Cli } from "./entities/Cli.ts";
+import { JsonDatabase } from "./database/JsonDatabase.ts";
 
-function main() {
+async function main() {
   const jsonDatabase: JsonDatabase = new JsonDatabase();
-  const taskService: TaskService = new TaskService(jsonDatabase);
+  const taskService: TaskService = new TaskService(
+    jsonDatabase,
+    await jsonDatabase.getData(),
+  );
   const app: Cli = new Cli(taskService);
-  app.addCommand(addTask).addCommand(deleteTask).addCommand(listTasks)
-    .addCommand(markDone).addCommand(markInProgress).addCommand(updateTask);
+  app.addCommand(addTaskCMD).addCommand(deleteTaskCMD).addCommand(listTasksCMD)
+    .addCommand(maskTaskAsDoneCMD).addCommand(markTaskAsInProgressCMD)
+    .addCommand(
+      updateTaskCMD,
+    );
   app.run(Deno.args);
 }
 
 if (import.meta.main) {
-  main();
+  await main();
 }

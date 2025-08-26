@@ -1,7 +1,13 @@
-import { TaskService } from "../service/Task.service.ts";
+import { TaskService } from "../service/TaskService.ts";
+
+export type CommandHandler = (
+  args: string[],
+  service: TaskService,
+) => Promise<void>;
 
 export type Command = {
   name: string;
-  exec: (args: string[], service: TaskService) => void;
   description: string;
+  example: string;
+  exec: CommandHandler;
 };

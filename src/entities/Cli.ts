@@ -1,5 +1,5 @@
-import { Command } from "../entities/Command.ts";
-import { TaskService } from "../service/Task.service.ts";
+import { Command } from "./Command.ts";
+import { TaskService } from "../service/TaskService.ts";
 
 export class Cli {
   private commands: Command[];
@@ -20,8 +20,13 @@ export class Cli {
     const command: string = args[0];
     for (const cmd of this.commands) {
       if (cmd.name === command) {
-        cmd.exec(args.slice(1), this.service);
-        return;
+        try {
+          cmd.exec(args.slice(1), this.service);
+          return;
+        } catch (e) {
+          console.error(e);
+          Deno.exit(1);
+        }
       }
     }
     throw new Error("Command not registered");
