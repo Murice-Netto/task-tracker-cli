@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "dev": "deno run ./src/main.ts",
+    "build-windows": "deno compile -A -o ./bin/task-tracker-win --target x86_64-pc-windows-msvc ./src/main.ts",
+    "build-linux": "deno compile -A -o ./bin/task-tracker-lin --target x86_64-unknown-linux-gnu ./src/main.ts",
+    "build-macos": "deno compile -A -o ./bin/task-tracker-mac --target x86_64-apple-darwin ./src/main.ts",
+    "build": "deno task build-windows && deno task build-linux && deno task build-macos"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1"
+  }
+}
