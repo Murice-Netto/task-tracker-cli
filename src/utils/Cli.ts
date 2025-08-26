@@ -1,9 +1,17 @@
 import { Command } from "../entities/Command.ts";
+import { TaskService } from "../service/Task.service.ts";
 
 export class Cli {
-  private commands: Command[] = [];
+  private commands: Command[];
+  private service: TaskService;
 
-  public addCommand(): Cli {
+  public constructor(service: TaskService) {
+    this.service = service;
+    this.commands = [];
+  }
+
+  public addCommand(command: Command): Cli {
+    this.commands.push(command);
     return this;
   }
 
@@ -12,7 +20,7 @@ export class Cli {
     const command: string = args[0];
     for (const cmd of this.commands) {
       if (cmd.name === command) {
-        cmd.exec(args);
+        cmd.exec(args.slice(1), this.service);
         return;
       }
     }
