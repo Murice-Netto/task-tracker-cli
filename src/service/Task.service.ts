@@ -6,14 +6,14 @@ export class TaskService {
   constructor(private db: Database) {}
 
   public create(description: string): void {
-    const newData: DatabaseData = this.db.data;
+    const newData: DatabaseData = this.db.getData;
     const task: Task = {
-      id: this.db.lastInsertedId + 1,
+      id: this.db.getLastInsertedID + 1,
       createdAt: new Date(),
       description,
       status: TaskStatus.TODO,
     };
-    task.id = this.db.lastInsertedId + 1;
+    task.id = this.db.getLastInsertedID + 1;
     newData.tasks.push(task);
     this.db.update(newData);
   }
@@ -22,18 +22,18 @@ export class TaskService {
     const taskFound = this.getByID(id);
     if (!taskFound) throw new Error("Task not found.");
     taskFound.description = description;
-    this.db.update(this.db.data);
+    this.db.update(this.db.getData);
   }
 
   public delete(id: number): void {
-    const newData: DatabaseData = this.db.data;
+    const newData: DatabaseData = this.db.getData;
     if (!this.getByID(id)) throw new Error("Task not found.");
     newData.tasks = newData.tasks.filter((task) => task.id !== id);
     this.db.update(newData);
   }
 
   public updateStatus(id: number, status: TaskStatus): void {
-    const newData: DatabaseData = this.db.data;
+    const newData: DatabaseData = this.db.getData;
     const taskFound = this.getByID(id);
     if (!taskFound) throw new Error("Task not found.");
     taskFound.status = status;
@@ -42,12 +42,12 @@ export class TaskService {
 
   public getAll(status?: string): Task[] {
     if (status) {
-      return this.db.data.tasks.filter((task) => task.status === status);
+      return this.db.getData.tasks.filter((task) => task.status === status);
     }
-    return this.db.data.tasks;
+    return this.db.getData.tasks;
   }
 
   public getByID(id: number): Task | undefined {
-    return this.db.data.tasks.find((task) => task.id === id);
+    return this.db.getData.tasks.find((task) => task.id === id);
   }
 }

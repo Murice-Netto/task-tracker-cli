@@ -1,6 +1,3 @@
-import nodePath from "node:path";
-import nodeFs from "node:fs";
-
 import { Task } from "../entities/Task.ts";
 
 export type DatabaseData = {
@@ -9,40 +6,51 @@ export type DatabaseData = {
 
 export class Database {
   private FILE_NAME: string = "db.json";
-  private FILE_PATH: string = nodePath.join("./", this.FILE_NAME);
+  private FILE_PATH: string = `./${this.FILE_NAME}`;
   private FILE_CONTENT: string = `{ "tasks": [] }`;
+  private FILE_ENCONDER: TextEncoder = new TextEncoder();
+  private FILE_DECONDER: TextDecoder = new TextDecoder("utf-8");
 
-  public createIfNotExistsSync() {
-    if (this.isCreatedSync()) return;
+  public async createIfNotExists() {
+    if (await this.isCreated()) return;
     try {
-      nodeFs.writeFileSync(this.FILE_PATH, this.FILE_CONTENT);
+      await Deno.writeFile(
+        this.FILE_PATH,
+        this.FILE_ENCONDER.encode(this.FILE_CONTENT),
+      );
     } catch (e) {
       console.error(e);
     }
   }
 
-  public update(newData: DatabaseData): void {
-    if (!this.isCreatedSync()) throw new Error("Database file not found.");
+  public async update(data: DatabaseData): Promise<void> {
+    if (!this.isCreated()) throw new Error("Database file not found.");
     try {
-      nodeFs.writeFileSync(this.FILE_PATH, JSON.stringify(newData));
+      await Deno.writeFile(
+        this.FILE_PATH,
+        this.FILE_ENCONDER.encode(JSON.stringify(data)),
+      );
     } catch (e) {
       console.error(e);
     }
   }
 
-  public get data(): DatabaseData {
-    if (!this.isCreatedSync()) throw new Error("Database file not found.");
-    const content: string = nodeFs.readFileSync(this.FILE_PATH, {
-      encoding: "utf-8",
-    });
+  public async getData(): Promise<DatabaseData> {
+    if (!await this.isCreated()) {
+      throw new Error("Database file not found.");
+    }
+    const content: string = this.FILE_DECONDER.decode(
+      await Deno.readFile(this.FILE_PATH),
+    );
     return JSON.parse(content) as DatabaseData;
   }
 
-  public get lastInsertedId(): number {
-    return this.data.tasks[this.data.tasks.length - 1].id || 0;
+  public async getLastInsertedID(): Promise<number> {
+    const data = await this.getData();
+    return data.tasks[data.tasks.length - 1].id || 0;
   }
 
-  private isCreatedSync(): boolean {
-    return nodeFs.existsSync(this.FILE_PATH);
+  private async isCreated(): Promise<boolean> {
+    return (await Deno.stat(this.FILE_PATH)).isFile;
   }
 }
