@@ -7,6 +7,7 @@ export type CommandHandler = (
 
 export type Command = {
   name: string;
-  exec: CommandHandler;
   description: string;
+  example: string;
+  exec: CommandHandler;
 };
