@@ -10,4 +10,12 @@ export class TaskService {
     newData.tasks.push(task);
     this.db.update(newData);
   }
+
+  public updateTask(id: number, description: string): void {
+    const newData: DatabaseData = this.db.data;
+    const taskFound = newData.tasks.find((task) => task.id === id);
+    if (!taskFound) throw new Error("Task not found.");
+    taskFound.description = description;
+    this.db.update(newData);
+  }
 }
