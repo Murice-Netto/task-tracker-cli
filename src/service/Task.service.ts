@@ -32,7 +32,7 @@ export class TaskService {
     this.db.update(newData);
   }
 
-  public udpateTaskStatus(id: number, status: string): void {
+  public udpateTaskStatus(id: number, status: TaskStatus): void {
     const newData: DatabaseData = this.db.data;
     const taskFound = this.getTaskById(id);
     if (!taskFound) throw new Error("Task not found.");
