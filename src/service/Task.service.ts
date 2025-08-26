@@ -13,11 +13,10 @@ export class TaskService {
   }
 
   public updateTask(id: number, description: string): void {
-    const newData: DatabaseData = this.db.data;
     const taskFound = this.getTaskById(id);
     if (!taskFound) throw new Error("Task not found.");
     taskFound.description = description;
-    this.db.update(newData);
+    this.db.update(this.db.data);
   }
 
   public deleteTask(id: number): void {
