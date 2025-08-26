@@ -3,51 +3,50 @@ import { TaskStatus } from "../entities/TaskStatus.ts";
 import { Database, DatabaseData } from "../utils/Database.ts";
 
 export class TaskService {
-  constructor(private db: Database) {}
+  public constructor(private db: Database, private dbData: DatabaseData) {}
 
-  public create(description: string): void {
-    const newData: DatabaseData = this.db.getData;
+  public async create(description: string): Promise<void> {
+    const nextID = this.dbData.tasks.length > 0
+      ? this.dbData.tasks[this.dbData.tasks.length - 1].id + 1
+      : 1;
     const task: Task = {
-      id: this.db.getLastInsertedID + 1,
+      id: nextID,
       createdAt: new Date(),
       description,
       status: TaskStatus.TODO,
     };
-    task.id = this.db.getLastInsertedID + 1;
-    newData.tasks.push(task);
-    this.db.update(newData);
+    this.dbData.tasks.push(task);
+    await this.db.update(this.dbData);
   }
 
-  public update(id: number, description: string): void {
+  public async update(id: number, description: string): Promise<void> {
     const taskFound = this.getByID(id);
     if (!taskFound) throw new Error("Task not found.");
     taskFound.description = description;
-    this.db.update(this.db.getData);
+    await this.db.update(this.dbData);
   }
 
-  public delete(id: number): void {
-    const newData: DatabaseData = this.db.getData;
+  public async delete(id: number): Promise<void> {
     if (!this.getByID(id)) throw new Error("Task not found.");
-    newData.tasks = newData.tasks.filter((task) => task.id !== id);
-    this.db.update(newData);
+    this.dbData.tasks = this.dbData.tasks.filter((task) => task.id !== id);
+    await this.db.update(this.dbData);
   }
 
-  public updateStatus(id: number, status: TaskStatus): void {
-    const newData: DatabaseData = this.db.getData;
+  public async updateStatus(id: number, status: TaskStatus): Promise<void> {
     const taskFound = this.getByID(id);
     if (!taskFound) throw new Error("Task not found.");
     taskFound.status = status;
-    this.db.update(newData);
+    await this.db.update(this.dbData);
   }
 
-  public getAll(status?: string): Task[] {
+  public getAll(status?: TaskStatus): Task[] {
     if (status) {
-      return this.db.getData.tasks.filter((task) => task.status === status);
+      return this.dbData.tasks.filter((task) => task.status === status);
     }
-    return this.db.getData.tasks;
+    return this.dbData.tasks;
   }
 
   public getByID(id: number): Task | undefined {
-    return this.db.getData.tasks.find((task) => task.id === id);
+    return this.dbData.tasks.find((task) => task.id === id);
   }
 }
