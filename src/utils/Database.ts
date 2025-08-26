@@ -38,6 +38,10 @@ export class JsonDatabase {
     return JSON.parse(content) as DatabaseData;
   }
 
+  public get lastInsertedId(): number {
+    return this.data.tasks[this.data.tasks.length - 1].id || 0;
+  }
+
   private isCreatedSync(): boolean {
     return nodeFs.existsSync(this.FILE_PATH);
   }
