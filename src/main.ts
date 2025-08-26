@@ -9,9 +9,12 @@ import { TaskService } from "./service/Task.service.ts";
 import { Cli } from "./utils/Cli.ts";
 import { Database } from "./utils/Database.ts";
 
-function main() {
+async function main() {
   const jsonDatabase: Database = new Database();
-  const taskService: TaskService = new TaskService(jsonDatabase);
+  const taskService: TaskService = new TaskService(
+    jsonDatabase,
+    await jsonDatabase.getData(),
+  );
   const app: Cli = new Cli(taskService);
   app.addCommand(addTask).addCommand(deleteTask).addCommand(listTasks)
     .addCommand(markDone).addCommand(markInProgress).addCommand(updateTask);
@@ -19,5 +22,5 @@ function main() {
 }
 
 if (import.meta.main) {
-  main();
+  await main();
 }
