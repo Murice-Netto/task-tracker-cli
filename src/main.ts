@@ -1,4 +1,4 @@
-import { addTask } from "./commands/add.ts";
+import { addTask } from "./commands/addTask.ts";
 import { TaskService } from "./service/Task.service.ts";
 
 import { Cli } from "./utils/Cli.ts";
