@@ -18,4 +18,12 @@ export class TaskService {
     taskFound.description = description;
     this.db.update(newData);
   }
+
+  public deleteTask(id: number): void {
+    const newData: DatabaseData = this.db.data;
+    const taskFound = newData.tasks.find((task) => task.id === id);
+    if (!taskFound) throw new Error("Task not found.");
+    newData.tasks = newData.tasks.filter((task) => task.id !== id);
+    this.db.update(newData);
+  }
 }
