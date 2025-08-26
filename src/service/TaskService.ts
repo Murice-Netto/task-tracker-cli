@@ -1,6 +1,6 @@
 import { Task } from "../entities/Task.ts";
 import { TaskStatus } from "../entities/TaskStatus.ts";
-import { Database, DatabaseData } from "../entities/Database.ts";
+import { Database, DatabaseData } from "../database/Database.ts";
 
 export class TaskService {
   public constructor(private db: Database, private dbData: DatabaseData) {}

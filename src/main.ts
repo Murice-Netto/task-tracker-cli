@@ -7,10 +7,10 @@ import { updateTaskCMD } from "./commands/updateTask.ts";
 import { TaskService } from "./service/TaskService.ts";
 
 import { Cli } from "./entities/Cli.ts";
-import { Database } from "./entities/Database.ts";
+import { JsonDatabase } from "./database/JsonDatabase.ts";
 
 async function main() {
-  const jsonDatabase: Database = new Database();
+  const jsonDatabase: JsonDatabase = new JsonDatabase();
   const taskService: TaskService = new TaskService(
     jsonDatabase,
     await jsonDatabase.getData(),
