@@ -6,10 +6,10 @@ export const listTasks: Command = {
   name: "list",
   description: "",
   exec: (args: string[], service: TaskService) => {
-    let tasks: Task[] = service.getAllTasks();
+    let tasks: Task[] = service.getAll();
     if (args.length > 0) {
       const status: string = args[0];
-      tasks = service.getAllTasks(status);
+      tasks = service.getAll(status);
     }
     console.log(tasks);
   },

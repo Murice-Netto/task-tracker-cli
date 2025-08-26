@@ -9,7 +9,7 @@ export const updateTask: Command = {
     if (args.length < 2) throw new Error("Missing task description.");
     const id = Number(args[0]);
     const description = args[1];
-    service.updateTask(id, description);
+    service.update(id, description);
     console.log("Task updated!");
   },
 };

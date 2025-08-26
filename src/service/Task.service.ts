@@ -5,7 +5,7 @@ import { Database, DatabaseData } from "../utils/Database.ts";
 export class TaskService {
   constructor(private db: Database) {}
 
-  public createTask(description: string): void {
+  public create(description: string): void {
     const newData: DatabaseData = this.db.data;
     const task: Task = {
       id: this.db.lastInsertedId + 1,
@@ -18,36 +18,36 @@ export class TaskService {
     this.db.update(newData);
   }
 
-  public updateTask(id: number, description: string): void {
-    const taskFound = this.getTaskById(id);
+  public update(id: number, description: string): void {
+    const taskFound = this.getByID(id);
     if (!taskFound) throw new Error("Task not found.");
     taskFound.description = description;
     this.db.update(this.db.data);
   }
 
-  public deleteTask(id: number): void {
+  public delete(id: number): void {
     const newData: DatabaseData = this.db.data;
-    if (!this.getTaskById(id)) throw new Error("Task not found.");
+    if (!this.getByID(id)) throw new Error("Task not found.");
     newData.tasks = newData.tasks.filter((task) => task.id !== id);
     this.db.update(newData);
   }
 
-  public udpateTaskStatus(id: number, status: TaskStatus): void {
+  public updateStatus(id: number, status: TaskStatus): void {
     const newData: DatabaseData = this.db.data;
-    const taskFound = this.getTaskById(id);
+    const taskFound = this.getByID(id);
     if (!taskFound) throw new Error("Task not found.");
     taskFound.status = status;
     this.db.update(newData);
   }
 
-  public getAllTasks(status?: string): Task[] {
+  public getAll(status?: string): Task[] {
     if (status) {
       return this.db.data.tasks.filter((task) => task.status === status);
     }
     return this.db.data.tasks;
   }
 
-  public getTaskById(id: number): Task | undefined {
+  public getByID(id: number): Task | undefined {
     return this.db.data.tasks.find((task) => task.id === id);
   }
 }

@@ -7,7 +7,7 @@ export const markDone: Command = {
   exec: (args: string[], service: TaskService) => {
     if (args.length < 1) throw new Error("Missing task id.");
     const id = Number(args[0]);
-    service.udpateTaskStatus(id, "DONE");
+    service.updateStatus(id, "DONE");
     console.log("Task status updated!");
   },
 };

@@ -7,7 +7,7 @@ export const addTask: Command = {
   exec: (args: string[], service: TaskService) => {
     if (args.length < 1) throw new Error("Missing task description.");
     const description = args[0];
-    service.createTask(description);
+    service.create(description);
     console.log("Task created!");
   },
 };

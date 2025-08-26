@@ -7,7 +7,7 @@ export const deleteTask: Command = {
   exec: (args: string[], service: TaskService) => {
     if (args.length < 1) throw new Error("Missing task id.");
     const id = Number(args[0]);
-    service.deleteTask(id);
+    service.delete(id);
     console.log("Task deleted!");
   },
 };

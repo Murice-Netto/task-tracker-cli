@@ -7,7 +7,7 @@ export const markInProgress: Command = {
   exec: (args: string[], service: TaskService) => {
     if (args.length < 1) throw new Error("Missing task id.");
     const id = Number(args[0]);
-    service.udpateTaskStatus(id, "IN-PROGRESS");
+    service.updateStatus(id, "IN-PROGRESS");
     console.log("Task status updated!");
   },
 };
