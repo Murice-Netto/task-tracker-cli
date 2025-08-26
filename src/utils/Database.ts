@@ -3,7 +3,7 @@ import nodeFs from "node:fs";
 
 import { Task } from "../entities/Task.ts";
 
-type DatabaseData = {
+export type DatabaseData = {
   tasks: Task[];
 };
 
@@ -16,6 +16,15 @@ export class JsonDatabase {
     if (this.isCreatedSync()) return;
     try {
       nodeFs.writeFileSync(this.FILE_PATH, this.FILE_CONTENT);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  public update(newData: DatabaseData): void {
+    if (!this.isCreatedSync()) throw new Error("Database file not found.");
+    try {
+      nodeFs.writeFileSync(this.FILE_PATH, JSON.stringify(newData));
     } catch (e) {
       console.error(e);
     }
