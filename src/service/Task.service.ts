@@ -6,7 +6,12 @@ export class TaskService {
 
   public createTask(description: string): void {
     const newData: DatabaseData = this.db.data;
-    const task: Task = new Task(description);
+    const task: Task = {
+      id: this.db.lastInsertedId + 1,
+      createdAt: new Date(),
+      description,
+      status: "a",
+    };
     task.id = this.db.lastInsertedId + 1;
     newData.tasks.push(task);
     this.db.update(newData);
