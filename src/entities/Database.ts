@@ -1,4 +1,4 @@
-import { Task } from "../entities/Task.ts";
+import { Task } from "./Task.ts";
 
 export type DatabaseData = {
   tasks: Task[];

@@ -1,4 +1,4 @@
-import { Command } from "../entities/Command.ts";
+import { Command } from "./Command.ts";
 import { TaskService } from "../service/TaskService.ts";
 
 export class Cli {

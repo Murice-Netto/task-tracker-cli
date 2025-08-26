@@ -6,8 +6,8 @@ import { markTaskAsInProgressCMD } from "./commands/markInProgress.ts";
 import { updateTaskCMD } from "./commands/updateTask.ts";
 import { TaskService } from "./service/TaskService.ts";
 
-import { Cli } from "./utils/Cli.ts";
-import { Database } from "./utils/Database.ts";
+import { Cli } from "./entities/Cli.ts";
+import { Database } from "./entities/Database.ts";
 
 async function main() {
   const jsonDatabase: Database = new Database();
